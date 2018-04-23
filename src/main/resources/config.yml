@@ -117,8 +117,12 @@ divide-on:
     breed: true
     # When a player tames an entity.
     tame: true
-    # When an entity it named using a name tag.
-    name: true
+    # When an Animal is named using a name tag.
+    Aniaml-name: true
+    # When an Monster is named using a name tag.
+    Monster-name: true
+    # When an Npc (Villager) iS named using a name tag.
+    Npc-name: true
 
 # Make every entity die in the stack on death.
 kill-all:

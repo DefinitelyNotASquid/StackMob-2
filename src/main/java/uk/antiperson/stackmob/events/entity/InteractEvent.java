@@ -22,9 +22,42 @@ public class InteractEvent implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
+
+
+
+        if(entity instanceof Monster){
+            if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && sm.config.getCustomConfig().getBoolean("divide-on.Monster-name")){
+                if(entity.hasMetadata(GlobalValues.METATAG)){
+                    if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
+                        Entity dupe = sm.tools.duplicate(entity);
+                        dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
+                        dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                    }
+                    entity.removeMetadata(GlobalValues.METATAG, sm);
+                    entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
+                }
+            }
+
+        }
+        if(entity instanceof NPC){
+            if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && sm.config.getCustomConfig().getBoolean("divide-on.Npc-name")){
+                if(entity.hasMetadata(GlobalValues.METATAG)){
+                    if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
+                        Entity dupe = sm.tools.duplicate(entity);
+                        dupe.setMetadata(GlobalValues.METATAG, new FixedMetadataValue(sm, entity.getMetadata(GlobalValues.METATAG).get(0).asInt() - 1));
+                        dupe.setMetadata(GlobalValues.NO_SPAWN_STACK, new FixedMetadataValue(sm, true));
+                    }
+                    entity.removeMetadata(GlobalValues.METATAG, sm);
+                    entity.setMetadata(GlobalValues.NO_STACK_ALL, new FixedMetadataValue(sm, true));
+                }
+            }
+
+        }
+
         if(!entity.hasMetadata(GlobalValues.METATAG)){
             return;
         }
+
         if(entity.hasMetadata(GlobalValues.CURRENTLY_BREEDING) && entity.getMetadata(GlobalValues.CURRENTLY_BREEDING).get(0).asBoolean()){
             return;
         }
@@ -79,7 +112,7 @@ public class InteractEvent implements Listener {
                     }.runTaskLater(sm, 20 * 20);
                 }
 
-            }else if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && sm.config.getCustomConfig().getBoolean("divide-on.name")){
+            }else if(event.getPlayer().getItemInHand().getType() == Material.NAME_TAG && sm.config.getCustomConfig().getBoolean("divide-on.Animal-name")){
                 if(entity.hasMetadata(GlobalValues.METATAG)){
                     if(entity.getMetadata(GlobalValues.METATAG).get(0).asInt() > 1){
                         Entity dupe = sm.tools.duplicate(entity);
@@ -91,6 +124,7 @@ public class InteractEvent implements Listener {
                 }
             }
         }
+
     }
 
     // There should be a method in bukkit for this...
